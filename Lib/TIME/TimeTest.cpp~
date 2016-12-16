@@ -1,0 +1,105 @@
+#include "TimeTest.h"
+
+
+TimeTest::TimeTest()
+{
+}
+
+
+TimeTest::~TimeTest()
+{
+}
+
+const std::string TimeTest::TM_NAME_STR[TM_Name_NUM] = {//Ž©•ª‚Å‚¢‚¶‚é
+	"ALL",
+	"NEURAL_Depth1",
+	"NN",
+	"twNN",
+	"NtwN",
+	"RDINTER",
+	"skip",
+	"lst",
+	"znd", 
+	"Erd" ,
+	"sitani",
+	"a",
+	"b",
+	"xCheckRDCostIntrani",
+	"xCheckRDCostIntran",
+	"xCheckRDCostIntern",
+	"xCheckRDCostIntern",
+    "deriveTestModeAMPa",
+	"dointermodes",
+	"NEURAL_Depth0",
+	"RDCOST_Depth0",
+	"sonota",
+	"RDCOST_Depth1",
+	"RDCOST_Depth2",
+	"RDCOST_Depth3",
+	"xCopyYuv2Picc",
+	"xCheckBestModee",
+	"bestmode",
+	"xCheckRDCostInter_in",
+	"searrch",
+	"searrch_out",
+	"xMotionEstimationn",
+
+};
+
+void TimeTest::start_fanc(int idx) {
+	gettimeofday(&start[idx],NULL);
+}
+
+void TimeTest::end_fanc(int idx) {
+	gettimeofday(&end[idx],NULL);
+}
+void TimeTest::cal(int idx) {
+	//sum_time[idx] += (double)(end[idx].QuadPart - start[idx].QuadPart);
+	sum_time[idx] += (double)(1000000*(end[idx].tv_sec-start[idx].tv_sec)+end[idx].tv_usec-start[idx].tv_usec);
+}
+
+void TimeTest::sum_print(int idx) {
+
+	printf("%s:::::%lf\n", TM_NAME_STR[idx].c_str(), sum_time[idx]);
+
+
+}
+
+
+void TimeTest::end_all(int idx) {
+	gettimeofday(&end[idx],NULL);
+	sum_time[idx] += (double)(1000000*(end[idx].tv_sec-start[idx].tv_sec)+end[idx].tv_usec-start[idx].tv_usec);
+}
+
+void TimeTest::end_all_fpri(int idx) {
+	gettimeofday(&end[idx],NULL);
+	sum_time[idx] += (double)(1000000*(end[idx].tv_sec-start[idx].tv_sec)+end[idx].tv_usec-start[idx].tv_usec);
+	fprintf(ttfp,"%s,%lf\n", TM_NAME_STR[idx].c_str(), sum_time[idx]);
+	}
+
+void TimeTest::pri(int idx) {
+	printf("%s:\t\t%lfsec\n", TM_NAME_STR[idx].c_str(), sum_time[idx]/1000000);
+}
+
+void TimeTest::open() {
+	ttfp = fopen("Timetest.csv", "ab");
+}
+
+void TimeTest::closeup() {
+	fclose(ttfp);
+}
+
+//---------------------------------------------------------------------------------
+/*void Dump::dump(int a,int x, int y,int z,int v) {
+
+	fprintf(dumpfp, "%d,%d,%d,%d,%d,\n", a, x, y, z, v);
+
+}
+
+void Dump::open() {
+	dumpfp = fopen("dump.csv", "ab");
+}
+
+void Dump::cl() {
+	fclose(dumpfp);
+}*/

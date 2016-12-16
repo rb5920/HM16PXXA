@@ -1,0 +1,79 @@
+#pragma once
+#include <sys/time.h>
+#include <iostream>
+using namespace std;//空間確保
+
+enum TM_Name {
+	ALL = 0,
+	XCOMCU = 1,
+	NN = 2,
+	twNN = 3,
+	NtwN = 4,
+	RDINTER = 5,
+	skip = 6,
+	lst=7,
+	znd=8,
+	Erd=9,
+	sitani=10,
+	a=11,
+	b=12,
+	xCheckRDCostIntrani=13,
+	xCheckRDCostIntran=14,
+	xCheckRDCostIntern=15,
+	xCheckRDCostInterni = 16,
+	deriveTestModeAMPa=17,
+	dointermodes=18,
+	xCheckRDCostInterniN=19,
+	xCheckRDCostMergea=20,
+	sonota=21,
+	PCM=22,
+	xFillPCMBufferr=23,
+	m_pppcRDSbacCoderr=24,
+	xCopyYuv2Picc=25,
+	xCheckBestModee=26,
+	bestmode=27,
+	xCheckRDCostInter_in=28,
+	searrch=29,
+	searrch_out = 30,
+	xMotionEstimationn=31,
+	TM_Name_NUM
+};
+
+class TimeTest {
+private:
+	double sum_time[TM_Name_NUM] = {};
+	//LARGE_INTEGER freq[TM_Name_NUM];
+	struct timeval start[TM_Name_NUM], end[TM_Name_NUM];
+	static const std::string TM_NAME_STR[TM_Name_NUM];
+	FILE* ttfp;
+
+public:
+
+	TimeTest();
+	~TimeTest();
+	void start_fanc(int idx); //測定開始 これ
+	void end_fanc(int idx); //おしまい　いらん
+	void cal(int idx);//　いらん
+	void sum_print(int idx);//　いらん
+	void end_all(int idx);//上の三つをまとめたやつ　これ
+	void pri(int idx);//出力 これ
+	void open();
+	void closeup();
+	void end_all_fpri(int idx); //ファイル出力する方
+	
+
+};
+
+//ダンプ用クラス
+/*class Dump {
+private:
+	FILE* dumpfp;
+	int x, y;
+public:
+
+	void dump(int a,int x, int y,int z,int v);
+	void open();
+	void cl();
+
+
+};*/
