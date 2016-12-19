@@ -54,15 +54,36 @@ FILE* gfpCU2;
 TF_neural MINTRADepth0;
 TF_neural MINTRADepth1;
 TF_neural MINTRADepth2;
-short *PredictedDepth;
+#if !NEURALNETWORK_PREDICTIONMODE_ENABLE
+short **PredictedDepth;
+#else
+char *LabelINTRAD0;
+char *LabelINTRAD1;
+char *LabelINTRAD2;
+#endif
 #endif
 #if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE
 TF_neural MINTERDepth0;
 TF_neural MINTERDepth1;
 TF_neural MINTERDepth2;
-short *PredictedDepthINTER;
+#if !NEURALNETWORK_PREDICTIONMODE_ENABLE
+short **PredictedDepthINTER;
+#else
+char *LabelINTERD0;
+char *LabelINTERD1;
+char *LabelINTERD2;
 #endif
-#if NEURALNETWORK_CU_PREDICTION_ENABLE || NEURALNETWORK_DUMP_ENABLE || NEURALNETWORK_PU_PREDICTION_ENABLE
+#endif
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+TF_neural MPModeDepth0;
+TF_neural MPModeDepth1;
+TF_neural MPModeDepth2;
+char *LabelPMD0;
+char *LabelPMD1;
+char *LabelPMD2;
+#endif
+
+#if NEURALNETWORK_GETFEATURE_ENABLE
 #if NEURALNETWORK_DUMP_ENABLE
 int CUFeature_cnt;
 #endif
@@ -102,14 +123,19 @@ int main(int argc, char* argv[])
   timem.start_fanc(GCFinit);
 #endif
 #if NEURALNETWORK_CU_INTRA_PREDICTION_ENABLE
-	MINTRADepth0.Create(0);
-	MINTRADepth1.Create(1);
-	MINTRADepth2.Create(2);
+	MINTRADepth0.Create(NN_INTRA_DEPTH0);
+	MINTRADepth1.Create(NN_INTRA_DEPTH1);
+	MINTRADepth2.Create(NN_INTRA_DEPTH2);
 #endif
 #if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE
-	MINTERDepth0.Create(3);
-	MINTERDepth1.Create(4);
-	MINTERDepth2.Create(5);
+	MINTERDepth0.Create(NN_INTER_DEPTH0);
+	MINTERDepth1.Create(NN_INTER_DEPTH1);
+	MINTERDepth2.Create(NN_INTER_DEPTH2);
+#endif
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+	MPModeDepth0.Create(NN_PREDICTIONMODE_DEPTH0);
+	MPModeDepth1.Create(NN_PREDICTIONMODE_DEPTH1);
+	MPModeDepth2.Create(NN_PREDICTIONMODE_DEPTH2);
 #endif
 #if NEURALNETWORK_TIMEEXECUTE_ENABLE
   timem.end_all(GCFinit);
@@ -198,6 +224,11 @@ int main(int argc, char* argv[])
 	MINTERDepth0.Destroy();
 	MINTERDepth1.Destroy();
 	MINTERDepth2.Destroy();
+#endif
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+	MPModeDepth0.Destroy();
+	MPModeDepth1.Destroy();
+	MPModeDepth2.Destroy();
 #endif
 	fclose(gfpTIME);
 #if NEURALNETWORK_DUMP_ENABLE

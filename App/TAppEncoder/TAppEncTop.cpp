@@ -45,7 +45,7 @@
 
 #include "TAppEncTop.h"
 #include "TLibEncoder/AnnexBwrite.h"
-#if NEURALNETWORK_CU_PREDICTION_ENABLE || NEURALNETWORK_DUMP_ENABLE || NEURALNETWORK_PU_PREDICTION_ENABLE
+#if NEURALNETWORK_GETFEATURE_ENABLE
 extern CUFeature GetCUFeature[1000];
 #endif
 using namespace std;
@@ -468,7 +468,7 @@ Void TAppEncTop::encode()
   // initialize internal class & member variables
   xInitLibCfg();
 
-  #if NEURALNETWORK_CU_PREDICTION_ENABLE || NEURALNETWORK_DUMP_ENABLE || NEURALNETWORK_PU_PREDICTION_ENABLE
+  #if NEURALNETWORK_GETFEATURE_ENABLE
   for(int step=0;step<1000;step++)
     GetCUFeature[step].SYSTEM_INIT(m_iQP);
   #endif

@@ -9,6 +9,7 @@ using namespace std;
 #define VAR_SUM_MODE 1
 #define FEATURE_INTRAMODE 0
 #define FEATURE_INTERMODE 1
+#define FEATURE_PREDICTMODE 2
 //class TComDataCU;
 
 class CUFeature{
@@ -56,6 +57,9 @@ class CUFeature{
         int getINTERDepth0(float* Output,UInt uiAbsPartIdx);
         int getINTERDepth1(float* Output,UInt uiAbsPartIdx);
         int getINTERDepth2(float* Output,UInt uiAbsPartIdx);
+        int getPMDepth0(float* Output,UInt uiAbsPartIdx);
+        int getPMDepth1(float* Output,UInt uiAbsPartIdx);
+        int getPMDepth2(float* Output,UInt uiAbsPartIdx);
         int getFeature(float* Output,int Depth,UInt uiAbsPartIdx,int Mode);
         void ElevateINTERDiff(TComDataCU* pcCU);
         Void MYpartialButterfly8(TCoeff *src, TCoeff *dst, Int shift, Int line);

@@ -15,22 +15,31 @@ int TF_neural::Create(int ModelVersion){
     case -1:
       m_status = ReadBinaryProto(Env::Default(), "models/rec_MIXT1N.pb", &(m_graph_def));
     break;
-    case 0:
+    case NN_INTRA_DEPTH0:
       m_status = ReadBinaryProto(Env::Default(), "models/rec_T24n.pb", &(m_graph_def));
     break;
-    case 1:
+    case NN_INTRA_DEPTH1:
       m_status = ReadBinaryProto(Env::Default(), "models/rec_T26n.pb", &(m_graph_def));
     break;
-    case 2:
+    case NN_INTRA_DEPTH2:
       m_status = ReadBinaryProto(Env::Default(), "models/rec_T56n.pb", &(m_graph_def));
     break;
-    case 3:
+    case NN_INTER_DEPTH0:
       m_status = ReadBinaryProto(Env::Default(), "models/rec_INTER_T09.pb", &(m_graph_def));
     break;
-    case 4:
+    case NN_INTER_DEPTH1:
       m_status = ReadBinaryProto(Env::Default(), "models/rec_INTER_T09D1.pb", &(m_graph_def));
     break;
-    case 5:
+    case NN_INTER_DEPTH2:
+      m_status = ReadBinaryProto(Env::Default(), "models/rec_INTER_T09D2.pb", &(m_graph_def));
+    break;
+    case NN_PREDICTIONMODE_DEPTH0:
+      m_status = ReadBinaryProto(Env::Default(), "models/rec_INTER_T09.pb", &(m_graph_def));
+    break;
+    case NN_PREDICTIONMODE_DEPTH1:
+      m_status = ReadBinaryProto(Env::Default(), "models/rec_INTER_T09D1.pb", &(m_graph_def));
+    break;
+    case NN_PREDICTIONMODE_DEPTH2:
       m_status = ReadBinaryProto(Env::Default(), "models/rec_INTER_T09D2.pb", &(m_graph_def));
     break;
   }
@@ -53,22 +62,31 @@ int TF_neural::Create(int ModelVersion){
     case -1:
       checkpoint_filepath.scalar<std::string>()() = "models/rec_MIXT1N";
     break;
-    case 0:
+    case NN_INTRA_DEPTH0:
       checkpoint_filepath.scalar<std::string>()() = "models/rec_T24";
     break;
-    case 1:
+    case NN_INTRA_DEPTH1:
       checkpoint_filepath.scalar<std::string>()() = "models/rec_T26";
     break;
-    case 2:
+    case NN_INTRA_DEPTH2:
       checkpoint_filepath.scalar<std::string>()() = "models/rec_T56";
     break;
-    case 3:
+    case NN_INTER_DEPTH0:
       checkpoint_filepath.scalar<std::string>()() = "models/rec_INTER_T09";
     break;
-    case 4:
+    case NN_INTER_DEPTH1:
       checkpoint_filepath.scalar<std::string>()() = "models/rec_INTER_T09D1";
     break;
-    case 5:
+    case NN_INTER_DEPTH2:
+      checkpoint_filepath.scalar<std::string>()() = "models/rec_INTER_T09D2";
+    break;
+    case NN_PREDICTIONMODE_DEPTH0:
+      checkpoint_filepath.scalar<std::string>()() = "models/rec_INTER_T09";
+    break;
+    case NN_PREDICTIONMODE_DEPTH1:
+      checkpoint_filepath.scalar<std::string>()() = "models/rec_INTER_T09D1";
+    break;
+    case NN_PREDICTIONMODE_DEPTH2:
       checkpoint_filepath.scalar<std::string>()() = "models/rec_INTER_T09D2";
     break;
   }

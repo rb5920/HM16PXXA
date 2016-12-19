@@ -49,15 +49,32 @@ extern FILE* gfpCU0;
 extern FILE* gfpCU1;
 extern FILE* gfpCU2;
 #endif
-#if NEURALNETWORK_CU_PREDICTION_ENABLE || NEURALNETWORK_DUMP_ENABLE
+#if NEURALNETWORK_GETFEATURE_ENABLE
 //extern int CUFeature_cnt;
 extern CUFeature GetCUFeature[1000];
 #endif
-#if NEURALNETWORK_CU_INTRA_PREDICTION_ENABLE
+#if NEURALNETWORK_CU_INTRA_PREDICTION_ENABLE 
+#if !NEURALNETWORK_PREDICTIONMODE_ENABLE
 extern short **PredictedDepth;
+#else
+extern char *LabelINTRAD0;
+extern char *LabelINTRAD1;
+extern char *LabelINTRAD2;
 #endif
-#if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE
+#endif
+#if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE 
+#if !NEURALNETWORK_PREDICTIONMODE_ENABLE
 extern short **PredictedDepthINTER;
+#else
+extern char *LabelINTERD0;
+extern char *LabelINTERD1;
+extern char *LabelINTERD2;
+#endif
+#endif
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+extern char *LabelPMD0;
+extern char *LabelPMD1;
+extern char *LabelPMD2;
 #endif
 #if NEURALNETWORK_TIMEEXECUTE_ENABLE
 extern TimeTest timem;
@@ -461,14 +478,17 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
   bool PARTITIONINTER=1;
   short mydepthINTER=0;
 #endif
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+  bool enSKIPMODE = 0;
+#endif
 #if NEURALNETWORK_TIMEEXECUTE_ENABLE
   timem.start_fanc(GCFgetFeature);
 #endif
-  #if NEURALNETWORK_CU_PREDICTION_ENABLE
+#if NEURALNETWORK_GETFEATURE_ENABLE
   int NUM;
   if(!bBoundary && uiDepth <= 2 )
   {
-#if NEURALNETWORK_CU_INTRA_PREDICTION_ENABLE
+#if NEURALNETWORK_CU_INTRA_PREDICTION_ENABLE && !NEURALNETWORK_PREDICTIONMODE_ENABLE
     mydepthINTRA = PredictedDepth[rpcBestCU->getCtuRsAddr()][rpcBestCU->getZorderIdxInCtu()];
     if(mydepthINTRA==uiDepth)
       notRDCOSTINTRA=0;
@@ -485,7 +505,7 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
     if(mydepthINTRA == 3 && uiDepth == 3 ) Count_Depth3_NEURAL++;
 #endif
 #endif
-#if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE
+#if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE && !NEURALNETWORK_PREDICTIONMODE_ENABLE
     mydepthINTER = PredictedDepthINTER[rpcBestCU->getCtuRsAddr()][rpcBestCU->getZorderIdxInCtu()];
     if(mydepthINTER==uiDepth)
       notRDCOSTINTER=0;
@@ -497,6 +517,112 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
       PARTITIONINTER=0;
     if( rpcBestCU->getSlice()->getSliceType() == I_SLICE )
       PARTITIONINTER=0;
+#endif
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+    if( rpcBestCU->getSlice()->getSliceType() == I_SLICE )
+    {
+      notRDCOSTINTER = 1;
+      PARTITIONINTER = 0;
+      enSKIPMODE = 0;
+      if(uiDepth == 0)
+        mydepthINTRA = LabelINTRAD0[rpcBestCU->getCtuRsAddr()];
+      else if(uiDepth == 1)
+        mydepthINTRA = LabelINTRAD1[rpcBestCU->getCtuRsAddr()];
+      else if(uiDepth == 2)
+        mydepthINTRA = LabelINTRAD2[rpcBestCU->getCtuRsAddr()];
+      notRDCOSTINTRA = mydepthINTRA;
+      PARTITIONINTRA = mydepthINTRA;
+    }
+    else 
+    {
+      if(uiDepth == 0)
+      {
+        switch(LabelPMD0[rpcBestCU->getCtuRsAddr()])
+        {
+          case 0:
+            mydepthINTRA = LabelINTRAD0[rpcBestCU->getCtuRsAddr()];
+            notRDCOSTINTRA = mydepthINTRA;
+            PARTITIONINTRA = mydepthINTRA;
+            notRDCOSTINTER = 1;
+            PARTITIONINTER = 0;
+            enSKIPMODE = 0;
+            break;
+          case 1:
+            mydepthINTER = LabelINTERD0[rpcBestCU->getCtuRsAddr()];
+            notRDCOSTINTRA = 1;
+            PARTITIONINTRA = 0;
+            notRDCOSTINTER = mydepthINTER;
+            PARTITIONINTER = mydepthINTER;
+            enSKIPMODE = 0;
+            break;
+          case 2:
+            notRDCOSTINTRA = 1;
+            PARTITIONINTRA = 0;
+            notRDCOSTINTER = 1;
+            PARTITIONINTER = 0;
+            enSKIPMODE = 1;
+            break;
+        }
+      }
+      else if(uiDepth == 1)
+      {
+        switch(LabelPMD1[rpcBestCU->getCtuRsAddr()])
+        {
+          case 0:
+            mydepthINTRA = LabelINTRAD1[rpcBestCU->getCtuRsAddr()*4+rpcBestCU->getZorderIdxInCtu()/64];
+            notRDCOSTINTRA = mydepthINTRA;
+            PARTITIONINTRA = mydepthINTRA;
+            notRDCOSTINTER = 1;
+            PARTITIONINTER = 0;
+            enSKIPMODE = 0;
+            break;
+          case 1:
+            mydepthINTER = LabelINTERD1[rpcBestCU->getCtuRsAddr()*4+rpcBestCU->getZorderIdxInCtu()/64];
+            notRDCOSTINTRA = 1;
+            PARTITIONINTRA = 0;
+            notRDCOSTINTER = mydepthINTER;
+            PARTITIONINTER = mydepthINTER;
+            enSKIPMODE = 0;
+            break;
+          case 2:
+            notRDCOSTINTRA = 1;
+            PARTITIONINTRA = 0;
+            notRDCOSTINTER = 1;
+            PARTITIONINTER = 0;
+            enSKIPMODE = 1;
+            break;
+        }
+      }
+      else if(uiDepth == 2)
+      {
+        switch(LabelPMD2[rpcBestCU->getCtuRsAddr()])
+        {
+          case 0:
+            mydepthINTRA = LabelINTRAD2[rpcBestCU->getCtuRsAddr()*16+rpcBestCU->getZorderIdxInCtu()/16];
+            notRDCOSTINTRA = mydepthINTRA;
+            PARTITIONINTRA = mydepthINTRA;
+            notRDCOSTINTER = 1;
+            PARTITIONINTER = 0;
+            enSKIPMODE = 0;
+            break;
+          case 1:
+            mydepthINTER = LabelINTERD2[rpcBestCU->getCtuRsAddr()*16+rpcBestCU->getZorderIdxInCtu()/16];
+            notRDCOSTINTRA = 1;
+            PARTITIONINTRA = 0;
+            notRDCOSTINTER = mydepthINTER;
+            PARTITIONINTER = mydepthINTER;
+            enSKIPMODE = 0;
+            break;
+          case 2:
+            notRDCOSTINTRA = 1;
+            PARTITIONINTRA = 0;
+            notRDCOSTINTER = 1;
+            PARTITIONINTER = 0;
+            enSKIPMODE = 1;
+            break;
+        }
+      }
+    }
 #endif
   }
 #endif
@@ -601,8 +727,16 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
             break;				
         }
 #endif
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+        if(uiDepth > 2 || enSKIPMODE )
+        {
+          xCheckRDCostMerge2Nx2N( rpcBestCU, rpcTempCU DEBUG_STRING_PASS_INTO(sDebug), &earlyDetectionSkipMode );//by Merge for inter_2Nx2N
+          rpcTempCU->initEstData( uiDepth, iQP, bIsLosslessMode );
+        }
+#else
         xCheckRDCostMerge2Nx2N( rpcBestCU, rpcTempCU DEBUG_STRING_PASS_INTO(sDebug), &earlyDetectionSkipMode );//by Merge for inter_2Nx2N
         rpcTempCU->initEstData( uiDepth, iQP, bIsLosslessMode );
+#endif
 #if NEURALNETWORK_TIMEEXECUTE_ENABLE        
         switch(uiDepth)
         {

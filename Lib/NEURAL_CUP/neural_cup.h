@@ -18,14 +18,18 @@
 using namespace tensorflow;
 using namespace std;
 
+#define NN_INTRA_DEPTH0						0
+#define NN_INTRA_DEPTH1						1
+#define NN_INTRA_DEPTH2						2
+#define NN_INTER_DEPTH0						3
+#define NN_INTER_DEPTH1						4
+#define NN_INTER_DEPTH2						5
+#define NN_PREDICTIONMODE_DEPTH0			6
+#define NN_PREDICTIONMODE_DEPTH1			7
+#define NN_PREDICTIONMODE_DEPTH2			8
+
 class TF_neural{
 	private:
-		/*static Session* session;
-		static GraphDef graph_def;
-		static Status status;
-		static std::vector<std::pair<string, tensorflow::Tensor>> inputs;
-		static std::vector<tensorflow::Tensor> outputs;
-		static vector<Tensor>::iterator it;*/
 		Session* m_session;
 		GraphDef m_graph_def;
 		Status m_status;

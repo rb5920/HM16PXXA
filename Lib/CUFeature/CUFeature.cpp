@@ -4786,6 +4786,73 @@ int CUFeature::getINTERDepth2(float* Output,UInt uiAbsPartIdx)
     return 9;
 //INTERT09================================================================================
 }
+int CUFeature::getPMDepth0(float* Output,UInt uiAbsPartIdx)
+{
+    Double VARofVARSIZE32;
+    Double AVGofVARSIZE32;
+    Double VARofAVGSIZE32;
+    Double AVGofAVGSIZE32;
+    Variance(VARSIZE32, 4.0, &VARofVARSIZE32, &AVGofVARSIZE32, VAR_NORMAL_MODE);  
+    Variance(AVGSIZE32, 4.0, &VARofAVGSIZE32, &AVGofAVGSIZE32, VAR_NORMAL_MODE); 
+//INTERT09================================================================================
+    Output[0]=VARAVGofCOL64;
+    Output[1]=VARAVGofROW64;
+    Output[2]=VARofVARSIZE32;
+    Output[3]=VARofAVGSIZE32;
+    Output[4]=VARSIZE64;
+    Output[5]=DC_AVG;
+    Output[6]=AC_AVG;
+    Output[7]=QP;
+    Output[8]=VARDiffrenceofPreFrame;
+    Output[9]=AVGDiffrenceofPreFrame;
+    return 10;
+//INTERT09================================================================================
+}
+
+int CUFeature::getPMDepth1(float* Output,UInt uiAbsPartIdx)
+{
+    Double VARofVARSIZE16;
+    Double AVGofVARSIZE16;
+    Double VARofAVGSIZE16;
+    Double AVGofAVGSIZE16;
+    int INDEX;
+    INDEX=uiAbsPartIdx/64;
+    Variance(VARSIZE16[INDEX], 4.0, &VARofVARSIZE16, &AVGofVARSIZE16, VAR_NORMAL_MODE);  
+    Variance(AVGSIZE16[INDEX], 4.0, &VARofAVGSIZE16, &AVGofAVGSIZE16, VAR_NORMAL_MODE);  
+//INTERT09================================================================================
+    Output[0]=VARofVARSIZE16;
+    Output[1]=VARSIZE32[INDEX];
+    Output[2]=QP;
+    Output[3]=VARDiffrenceofPreFrame;
+    Output[4]=AVGDiffrenceofPreFrame;
+    return 5;
+//INTERT09================================================================================
+}
+
+int CUFeature::getPMDepth2(float* Output,UInt uiAbsPartIdx)
+{
+    Double VARofVARSIZE8;
+    Double AVGofVARSIZE8;
+    Double VARofAVGSIZE8;
+    Double AVGofAVGSIZE8;
+    int INDEX,INDEXNEXT;
+    INDEX=uiAbsPartIdx/64;
+    INDEXNEXT=(uiAbsPartIdx%64)/16;
+    Variance(VARSIZE8[INDEX][INDEXNEXT], 4.0, &VARofVARSIZE8, &AVGofVARSIZE8, VAR_NORMAL_MODE);  
+    Variance(AVGSIZE8[INDEX][INDEXNEXT], 4.0, &VARofAVGSIZE8, &AVGofAVGSIZE8, VAR_NORMAL_MODE);  
+//INTERT09================================================================================
+    Output[0]=QP;
+    Output[1]=VARSIZE16[INDEX][INDEXNEXT];
+    Output[2]=AVGSIZE16[INDEX][INDEXNEXT];
+    Output[3]=VARofVARSIZE8;
+    Output[4]=AVGofVARSIZE8;
+    Output[5]=VARofAVGSIZE8;
+    Output[6]=AVGofAVGSIZE8;
+    Output[7]=VARDiffrenceofPreFrame;
+    Output[8]=AVGDiffrenceofPreFrame;
+    return 9;
+//INTERT09================================================================================
+}
 int CUFeature::getFeature(float* Output,int Depth,UInt uiAbsPartIdx,int Mode)
 {
     int NUM;
@@ -4816,6 +4883,21 @@ int CUFeature::getFeature(float* Output,int Depth,UInt uiAbsPartIdx,int Mode)
                 break;
             case 2:
                 NUM=getINTERDepth2(Output,uiAbsPartIdx);
+                break;
+        }
+    }
+    if(Mode==FEATURE_PREDICTMODE)
+    {
+        switch(Depth)
+        {
+            case 0:
+                NUM=getPMDepth0(Output,uiAbsPartIdx);
+                break;
+            case 1:
+                NUM=getPMDepth1(Output,uiAbsPartIdx);
+                break;
+            case 2:
+                NUM=getPMDepth2(Output,uiAbsPartIdx);
                 break;
         }
     }

@@ -53,7 +53,7 @@
 using namespace std;
 //! \ingroup TLibEncoder
 //! \{
-#if NEURALNETWORK_CU_PREDICTION_ENABLE || NEURALNETWORK_DUMP_ENABLE || NEURALNETWORK_PU_PREDICTION_ENABLE
+#if NEURALNETWORK_GETFEATURE_ENABLE
 extern CUFeature GetCUFeature[1000];
 #if NEURALNETWORK_DUMP_ENABLE
 extern int CUFeature_cnt;
@@ -63,13 +63,33 @@ extern int CUFeature_cnt;
 extern TF_neural MINTRADepth0;
 extern TF_neural MINTRADepth1;
 extern TF_neural MINTRADepth2;
+#if !NEURALNETWORK_PREDICTIONMODE_ENABLE
 extern short **PredictedDepth;
+#else
+extern char *LabelINTRAD0;
+extern char *LabelINTRAD1;
+extern char *LabelINTRAD2;
+#endif
 #endif
 #if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE
 extern TF_neural MINTERDepth0;
 extern TF_neural MINTERDepth1;
 extern TF_neural MINTERDepth2;
+#if !NEURALNETWORK_PREDICTIONMODE_ENABLE
 extern short **PredictedDepthINTER;
+#else
+extern char *LabelINTERD0;
+extern char *LabelINTERD1;
+extern char *LabelINTERD2;
+#endif
+#endif
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+extern TF_neural MPModeDepth0;
+extern TF_neural MPModeDepth1;
+extern TF_neural MPModeDepth2;
+extern char *LabelPMD0;
+extern char *LabelPMD1;
+extern char *LabelPMD2;
 #endif
 #if NEURALNETWORK_TIMEEXECUTE_ENABLE
 extern TimeTest timem;
@@ -95,12 +115,16 @@ void ComputePredictedDepthNEWDP(TComPic* pcPic)
     float **OutputD0 = new float*[numberOfCtusInFrame];
     float **OutputD1 = new float*[numberOfCtusInFrame*4];
     float **OutputD2 = new float*[numberOfCtusInFrame*16];
+#if !NEURALNETWORK_PREDICTIONMODE_ENABLE
     PredictedDepth = new short*[numberOfCtusInFrame];
     for( UInt i=0; i<numberOfCtusInFrame; i++ ){
         PredictedDepth[i] = new short[256]();
-        OutputD0[i] = new float[20]();
         for(UInt j=0;j<256;j++)
           PredictedDepth[i][j]=9;
+    }
+#endif
+    for( UInt i=0; i<numberOfCtusInFrame; i++ ){
+        OutputD0[i] = new float[20]();
     }
     for( UInt i=0; i<numberOfCtusInFrame*4; i++ ){
         OutputD1[i] = new float[20]();
@@ -111,18 +135,27 @@ void ComputePredictedDepthNEWDP(TComPic* pcPic)
     int *labelD0 = new int[numberOfCtusInFrame]();
     int *labelD1 = new int[numberOfCtusInFrame*4]();
     int *labelD2 = new int[numberOfCtusInFrame*16]();
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+    LabelINTRAD0 = new char[numberOfCtusInFrame]();
+    LabelINTRAD1 = new char[numberOfCtusInFrame*4]();
+    LabelINTRAD2 = new char[numberOfCtusInFrame*16]();
+#endif
     int NUM=0,NUM1=0,NUM2=0;
 #endif
 #if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE
     float **OutputD0INTER = new float*[numberOfCtusInFrame];
     float **OutputD1INTER = new float*[numberOfCtusInFrame*4];
     float **OutputD2INTER = new float*[numberOfCtusInFrame*16];
+#if !NEURALNETWORK_PREDICTIONMODE_ENABLE
     PredictedDepthINTER = new short*[numberOfCtusInFrame];
     for( UInt i=0; i<numberOfCtusInFrame; i++ ){
         PredictedDepthINTER[i] = new short[256]();
-        OutputD0INTER[i] = new float[20]();
         for(UInt j=0;j<256;j++)
           PredictedDepthINTER[i][j]=9;
+    }
+#endif
+    for( UInt i=0; i<numberOfCtusInFrame; i++ ){
+        OutputD0INTER[i] = new float[20]();
     }
     for( UInt i=0; i<numberOfCtusInFrame*4; i++ ){
         OutputD1INTER[i] = new float[20]();
@@ -133,7 +166,33 @@ void ComputePredictedDepthNEWDP(TComPic* pcPic)
     int *labelD0INTER = new int[numberOfCtusInFrame]();
     int *labelD1INTER = new int[numberOfCtusInFrame*4]();
     int *labelD2INTER = new int[numberOfCtusInFrame*16]();
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+    LabelINTERD0 = new char[numberOfCtusInFrame]();
+    LabelINTERD1 = new char[numberOfCtusInFrame*4]();
+    LabelINTERD2 = new char[numberOfCtusInFrame*16]();
+#endif
     int NUMINTER=0,NUM1INTER=0,NUM2INTER=0;
+#endif
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE    
+    float **OutputD0PM = new float*[numberOfCtusInFrame];
+    float **OutputD1PM = new float*[numberOfCtusInFrame*4];
+    float **OutputD2PM = new float*[numberOfCtusInFrame*16];
+    for( UInt i=0; i<numberOfCtusInFrame; i++ ){
+        OutputD0PM[i] = new float[20]();
+    }
+    for( UInt i=0; i<numberOfCtusInFrame*4; i++ ){
+        OutputD1PM[i] = new float[20]();
+    }
+    for( UInt i=0; i<numberOfCtusInFrame*16; i++ ){
+        OutputD2PM[i] = new float[20]();
+    }
+    int *labelD0PM = new int[numberOfCtusInFrame]();
+    int *labelD1PM = new int[numberOfCtusInFrame*4]();
+    int *labelD2PM = new int[numberOfCtusInFrame*16]();
+    LabelPMD0 = new char[numberOfCtusInFrame]();
+    LabelPMD1 = new char[numberOfCtusInFrame*4]();
+    LabelPMD2 = new char[numberOfCtusInFrame*16]();
+    int NUMPM=0,NUM1PM=0,NUM2PM=0;
 #endif
     for(UInt CtuIndexH = 0; CtuIndexH < numberOfFrameHeightInCtus; CtuIndexH++)
     {
@@ -149,6 +208,9 @@ void ComputePredictedDepthNEWDP(TComPic* pcPic)
 #if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE
             NUMINTER = GetCUFeature[CtuIndex].getFeature(OutputD0INTER[CtuIndex], 0, 0, FEATURE_INTERMODE);
 #endif
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+            NUMPM = GetCUFeature[CtuIndex].getFeature(OutputD0PM[CtuIndex], 0, 0, FEATURE_PREDICTMODE);
+#endif
 
             //Depth1========================================================================================
             for(UInt Depth1=0;Depth1<4;Depth1++)
@@ -159,6 +221,9 @@ void ComputePredictedDepthNEWDP(TComPic* pcPic)
 #if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE
               NUM1INTER = GetCUFeature[CtuIndex].getFeature(OutputD1INTER[CtuIndex*4+Depth1], 1, Depth1*64, FEATURE_INTERMODE);
 #endif
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+              NUM1PM = GetCUFeature[CtuIndex].getFeature(OutputD1[CtuIndex*4+Depth1], 1, Depth1*64, FEATURE_PREDICTMODE);
+#endif
               for(UInt Depth2=0;Depth2<4;Depth2++)
               {
 #if NEURALNETWORK_CU_INTRA_PREDICTION_ENABLE
@@ -166,6 +231,9 @@ void ComputePredictedDepthNEWDP(TComPic* pcPic)
 #endif
 #if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE
                 NUM2INTER = GetCUFeature[CtuIndex].getFeature(OutputD2INTER[CtuIndex*16+Depth1*4+Depth2], 2, Depth1*64+Depth2*16, FEATURE_INTERMODE);
+#endif
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+                NUM2PM = GetCUFeature[CtuIndex].getFeature(OutputD2[CtuIndex*16+Depth1*4+Depth2], 2, Depth1*64+Depth2*16, FEATURE_PREDICTMODE);
 #endif
               }
             }
@@ -217,6 +285,7 @@ void ComputePredictedDepthNEWDP(TComPic* pcPic)
     timem.end_all(NEURAL_Depth2);
 #endif
 #if NEURALNETWORK_CU_INTRA_PREDICTION_ENABLE
+#if !NEURALNETWORK_PREDICTIONMODE_ENABLE
     for(UInt CtuIndexH = 0; CtuIndexH < numberOfFrameHeightInCtus; CtuIndexH++)
     {
         //for(UInt CtuIndexW = 0; CtuIndexW < MaxOfCTUIndexW; CtuIndexW++)
@@ -266,6 +335,17 @@ void ComputePredictedDepthNEWDP(TComPic* pcPic)
             }
         }
     }
+#else     
+    for( UInt i=0; i<numberOfCtusInFrame; i++ ){
+        LabelINTRAD0[i]=labelD0[i];
+    } 
+    for( UInt i=0; i<numberOfCtusInFrame*4; i++ ){
+        LabelINTRAD1[i]=labelD1[i];
+    } 
+    for( UInt i=0; i<numberOfCtusInFrame*16; i++ ){
+        LabelINTRAD2[i]=labelD2[i];
+    }
+#endif
     for( UInt i=0; i<numberOfCtusInFrame; i++ ){
         delete[] OutputD0[i];
         OutputD0[i]=0;
@@ -292,6 +372,7 @@ void ComputePredictedDepthNEWDP(TComPic* pcPic)
     labelD2=0;  
 #endif
 #if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE
+#if !NEURALNETWORK_PREDICTIONMODE_ENABLE
     for(UInt CtuIndexH = 0; CtuIndexH < numberOfFrameHeightInCtus; CtuIndexH++)
     {
         for(UInt CtuIndexW = 0; CtuIndexW < numberOfFrameWidthInCtus; CtuIndexW++)
@@ -337,6 +418,17 @@ void ComputePredictedDepthNEWDP(TComPic* pcPic)
             }
         }
     }
+#else     
+    for( UInt i=0; i<numberOfCtusInFrame; i++ ){
+        LabelINTERD0[i]=labelD0INTER[i];
+    } 
+    for( UInt i=0; i<numberOfCtusInFrame*4; i++ ){
+        LabelINTERD1[i]=labelD1INTER[i];
+    } 
+    for( UInt i=0; i<numberOfCtusInFrame*16; i++ ){
+        LabelINTERD2[i]=labelD2INTER[i];
+    }
+#endif
     for( UInt i=0; i<numberOfCtusInFrame; i++ ){
         delete[] OutputD0INTER[i];
         OutputD0INTER[i]=0;
@@ -362,7 +454,41 @@ void ComputePredictedDepthNEWDP(TComPic* pcPic)
     delete[] labelD2INTER;
     labelD2INTER=0;  
 #endif
-    
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE    
+    for( UInt i=0; i<numberOfCtusInFrame; i++ ){
+        LabelPMD0[i]=labelD0PM[i];
+    } 
+    for( UInt i=0; i<numberOfCtusInFrame*4; i++ ){
+        LabelPMD1[i]=labelD1PM[i];
+    } 
+    for( UInt i=0; i<numberOfCtusInFrame*16; i++ ){
+        LabelPMD2[i]=labelD2PM[i];
+    }
+    for( UInt i=0; i<numberOfCtusInFrame; i++ ){
+        delete[] OutputD0PM[i];
+        OutputD0PM[i]=0;
+    }
+    delete[] OutputD0PM;
+    OutputD0PM=0;  
+    for( UInt i=0; i<numberOfCtusInFrame*4; i++ ){
+        delete[] OutputD1PM[i];
+        OutputD1PM[i]=0;
+    }
+    delete[] OutputD1PM;
+    OutputD1PM=0;  
+    for( UInt i=0; i<numberOfCtusInFrame*16; i++ ){
+        delete[] OutputD2PM[i];
+        OutputD2PM[i]=0;
+    }
+    delete[] OutputD2PM;
+    OutputD2PM=0;  
+    delete[] labelD0PM;
+    labelD0PM=0;  
+    delete[] labelD1PM;
+    labelD1PM=0;  
+    delete[] labelD2PM;
+    labelD2PM=0;  
+#endif
 }
 
 // ====================================================================================================================
@@ -1875,7 +2001,7 @@ Void TEncGOP::compressGOP( Int iPOCLast, Int iNumPicRcvd, TComList<TComPic*>& rc
 #if NEURALNETWORK_TIMEEXECUTE_ENABLE
       timem.start_fanc(GCFinit);
 #endif
-#if NEURALNETWORK_CU_INTRA_PREDICTION_ENABLE
+#if NEURALNETWORK_CU_INTRA_PREDICTION_ENABLE && !NEURALNETWORK_PREDICTIONMODE_ENABLE
       for( UInt i=0; i<numberOfCtusInFrame; i++ ){
           delete[] PredictedDepth[i];
           PredictedDepth[i]=0;
@@ -1883,13 +2009,33 @@ Void TEncGOP::compressGOP( Int iPOCLast, Int iNumPicRcvd, TComList<TComPic*>& rc
       delete[] PredictedDepth;
       PredictedDepth=0;
 #endif
-#if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE
+#if NEURALNETWORK_CU_INTER_PREDICTION_ENABLE && !NEURALNETWORK_PREDICTIONMODE_ENABLE
       for( UInt i=0; i<numberOfCtusInFrame; i++ ){
           delete[] PredictedDepthINTER[i];
           PredictedDepthINTER[i]=0;
       }
       delete[] PredictedDepthINTER;
       PredictedDepthINTER=0;
+#endif
+#if NEURALNETWORK_PREDICTIONMODE_ENABLE
+      delete[] LabelINTRAD0;
+      LabelINTRAD0=0;
+      delete[] LabelINTRAD1;
+      LabelINTRAD1=0;
+      delete[] LabelINTRAD2;
+      LabelINTRAD2=0;
+      delete[] LabelINTERD0;
+      LabelINTERD0=0;
+      delete[] LabelINTERD1;
+      LabelINTERD1=0;
+      delete[] LabelINTERD2;
+      LabelINTERD2=0;
+      delete[] LabelPMD0;
+      LabelPMD0=0;
+      delete[] LabelPMD1;
+      LabelPMD1=0;
+      delete[] LabelPMD2;
+      LabelPMD2=0;
 #endif
 #if NEURALNETWORK_TIMEEXECUTE_ENABLE
       timem.end_all(GCFinit);
