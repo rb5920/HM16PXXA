@@ -38,11 +38,23 @@ class CUFeature{
         Double VARSIZE4[256];
 	    Double DC_AVG;
 	    Double AC_AVG;
+	    Double DC_Depth1[4];
+	    Double AC_Depth1[4];
+	    Double DC_Depth2[16];
+	    Double AC_Depth2[16];
         Double QP;
-        Double VARDiffrenceofPreFrame;
-        Double AVGDiffrenceofPreFrame;
+        Double DIFFPREAVGSIZE64;
+        Double DIFFPREVARSIZE64;
+        Double DIFFPREAVGSIZE32[4];
+        Double DIFFPREVARSIZE32[4];
+        Double DIFFPREAVGSIZE16[4][4];
+        Double DIFFPREVARSIZE16[4][4];
         Double PREAVGSIZE64;
         Double PREVARSIZE64;
+        Double PREAVGSIZE32[4];
+        Double PREVARSIZE32[4];
+        Double PREAVGSIZE16[4][4];
+        Double PREVARSIZE16[4][4];
         bool INTERPRE_READY;
     public:
         void  SYSTEM_INIT(int);

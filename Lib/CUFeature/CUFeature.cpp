@@ -327,10 +327,28 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
     TCoeff DCTOUT82[1024];
     TCoeff DCTOUT83[1024];
     TCoeff DCTOUT84[1024];
+    TCoeff DCTIN16x16[16][256];
+    TCoeff DCTOUT16x16[16][256];
 	int DCTCOUNT1=0;
 	int DCTCOUNT2=0;
 	int DCTCOUNT3=0;
 	int DCTCOUNT4=0;
+	int DCTCOUNT_s1=0;
+	int DCTCOUNT_s2=0;
+	int DCTCOUNT_s3=0;
+	int DCTCOUNT_s4=0;
+	int DCTCOUNT_s5=0;
+	int DCTCOUNT_s6=0;
+	int DCTCOUNT_s7=0;
+	int DCTCOUNT_s8=0;
+	int DCTCOUNT_s9=0;
+	int DCTCOUNT_s10=0;
+	int DCTCOUNT_s11=0;
+	int DCTCOUNT_s12=0;
+	int DCTCOUNT_s13=0;
+	int DCTCOUNT_s14=0;
+	int DCTCOUNT_s15=0;
+	int DCTCOUNT_s16=0;
 	double DCTSUM81=0;
 	double DCTSUM82=0;
 	double DCTSUM83=0;
@@ -357,6 +375,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[2]=0;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s1];
+                    DCTCOUNT_s1++;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
                     {
                         LDepth3[0]=0;
@@ -479,6 +499,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=1;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s2];
+                    DCTCOUNT_s2++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -603,6 +625,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=0;
                     LDepth2[1]=1;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s3];
+                    DCTCOUNT_s3++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -727,6 +751,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=1;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s4];
+                    DCTCOUNT_s4++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -861,6 +887,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s5];
+                    DCTCOUNT_s5++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -985,6 +1013,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=1;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s6];
+                    DCTCOUNT_s6++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -1109,6 +1139,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=0;
                     LDepth2[1]=1;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s7];
+                    DCTCOUNT_s7++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -1233,6 +1265,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=1;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s8];
+                    DCTCOUNT_s8++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -1367,6 +1401,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s9];
+                    DCTCOUNT_s9++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -1491,6 +1527,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=1;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s10];
+                    DCTCOUNT_s10++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -1615,6 +1653,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=0;
                     LDepth2[1]=1;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s11];
+                    DCTCOUNT_s11++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -1739,6 +1779,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=1;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s12];
+                    DCTCOUNT_s12++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -1873,6 +1915,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s13];
+                    DCTCOUNT_s13++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -1997,6 +2041,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=1;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s14];
+                    DCTCOUNT_s14++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -2121,6 +2167,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=0;
                     LDepth2[1]=1;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s15];
+                    DCTCOUNT_s15++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -2245,6 +2293,8 @@ void CUFeature::ElevateFeature(TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=1;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s16];
+                    DCTCOUNT_s16++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -2461,6 +2511,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
     TCoeff DCTIN82[1024];
     TCoeff DCTIN83[1024];
     TCoeff DCTIN84[1024];
+    TCoeff DCTIN16x16[16][256];
+    TCoeff DCTOUT16x16[16][256];
     TCoeff DCTOUT81[1024];
     TCoeff DCTOUT82[1024];
     TCoeff DCTOUT83[1024];
@@ -2469,6 +2521,22 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
 	int DCTCOUNT2=0;
 	int DCTCOUNT3=0;
 	int DCTCOUNT4=0;
+	int DCTCOUNT_s1=0;
+	int DCTCOUNT_s2=0;
+	int DCTCOUNT_s3=0;
+	int DCTCOUNT_s4=0;
+	int DCTCOUNT_s5=0;
+	int DCTCOUNT_s6=0;
+	int DCTCOUNT_s7=0;
+	int DCTCOUNT_s8=0;
+	int DCTCOUNT_s9=0;
+	int DCTCOUNT_s10=0;
+	int DCTCOUNT_s11=0;
+	int DCTCOUNT_s12=0;
+	int DCTCOUNT_s13=0;
+	int DCTCOUNT_s14=0;
+	int DCTCOUNT_s15=0;
+	int DCTCOUNT_s16=0;
 	double DCTSUM81=0;
 	double DCTSUM82=0;
 	double DCTSUM83=0;
@@ -2493,6 +2561,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s1];
+                    DCTCOUNT_s1++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -2617,6 +2687,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=1;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s2];
+                    DCTCOUNT_s2++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -2741,6 +2813,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=0;
                     LDepth2[1]=1;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s3];
+                    DCTCOUNT_s3++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -2865,6 +2939,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=1;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s4];
+                    DCTCOUNT_s4++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -2999,6 +3075,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s5];
+                    DCTCOUNT_s5++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -3123,6 +3201,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=1;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s6];
+                    DCTCOUNT_s6++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -3247,6 +3327,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=0;
                     LDepth2[1]=1;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s7];
+                    DCTCOUNT_s7++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -3371,6 +3453,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=1;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s8];
+                    DCTCOUNT_s8++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -3505,6 +3589,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s9];
+                    DCTCOUNT_s9++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -3629,6 +3715,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=1;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s10];
+                    DCTCOUNT_s10++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -3753,6 +3841,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=0;
                     LDepth2[1]=1;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s11];
+                    DCTCOUNT_s11++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -3877,6 +3967,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=1;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s12];
+                    DCTCOUNT_s12++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -4011,6 +4103,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s13];
+                    DCTCOUNT_s13++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -4135,6 +4229,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=1;
                     LDepth2[1]=0;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s14];
+                    DCTCOUNT_s14++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -4259,6 +4355,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=0;
                     LDepth2[1]=1;
                     LDepth2[2]=0;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s15];
+                    DCTCOUNT_s15++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -4383,6 +4481,8 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
                     LDepth2[0]=0;
                     LDepth2[1]=0;
                     LDepth2[2]=1;
+                    DCTIN16x16[LDepth1[0]*4+LDepth1[1]*8+LDepth1[2]*12+LDepth2[0]+LDepth2[1]*2+LDepth2[2]*3][DCTCOUNT_s16];
+                    DCTCOUNT_s16++;
                     LDepth2[3]=LDepth2[1] * 16 + LDepth2[2] * 16;
                     LDepth2[4]=LDepth2[0] * 16 + LDepth2[2] * 16;
                     if(row < (8 + LDepth2[3] + LDepth1[3]) && col < (8 + LDepth2[4] + LDepth1[4]))//Depth3
@@ -4509,6 +4609,16 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
 	MYxTrMxN(DCTIN82, DCTOUT82, 32, 32);
 	MYxTrMxN(DCTIN83, DCTOUT83, 32, 32);
 	MYxTrMxN(DCTIN84, DCTOUT84, 32, 32);
+    for(int step=0;step<16;step++)
+    {
+	    MYxTrMxN(DCTIN16x16[step], DCTOUT16x16[step], 16, 16);
+        DC_Depth2[step]=abs(DCTOUT16x16[step][0]>>17);
+        AC_Depth2[step]=0;
+        for(int stepi=1;stepi<256;stepi++)
+        {
+            AC_Depth2[step]=AC_Depth2[step]+abs(DCTOUT16x16[step][stepi]>>17);
+        }
+    }
 	DCTOUT81[0]=DCTOUT81[0]>>17;
 	DCTOUT82[0]=DCTOUT82[0]>>17;
 	DCTOUT83[0]=DCTOUT83[0]>>17;
@@ -4526,6 +4636,12 @@ void CUFeature::PreElevateFeature(TComPic* pcPic, UInt CtuIndex)
 	}
 	DC_AVG =(double)( DCTOUT81[0] + DCTOUT82[0] + DCTOUT83[0] + DCTOUT84[0] )/ 4.0;
 	AC_AVG =(DCTSUM81+DCTSUM82+DCTSUM83+DCTSUM84)/4.0;
+    for(int step = 0; step < 4; step++)
+        DC_Depth1[step] = DCTOUT81[step];
+    AC_Depth1[0] = DCTSUM81;
+    AC_Depth1[1] = DCTSUM82;
+    AC_Depth1[2] = DCTSUM83;
+    AC_Depth1[3] = DCTSUM84;
     for(int step = 0; step < 64; step++)
     {
         AVGofCOL64[step] = AVGofCOL64[step] / 64.0;
@@ -4736,8 +4852,8 @@ int CUFeature::getINTERDepth0(float* Output,UInt uiAbsPartIdx)
     Output[5]=DC_AVG;
     Output[6]=AC_AVG;
     Output[7]=QP;
-    Output[8]=VARDiffrenceofPreFrame;
-    Output[9]=AVGDiffrenceofPreFrame;
+    Output[8]=DIFFPREVARSIZE64;
+    Output[9]=DIFFPREAVGSIZE64;
     return 10;
 //INTERT09================================================================================
 }
@@ -4756,8 +4872,8 @@ int CUFeature::getINTERDepth1(float* Output,UInt uiAbsPartIdx)
     Output[0]=VARofVARSIZE16;
     Output[1]=VARSIZE32[INDEX];
     Output[2]=QP;
-    Output[3]=VARDiffrenceofPreFrame;
-    Output[4]=AVGDiffrenceofPreFrame;
+    Output[3]=DIFFPREVARSIZE64;
+    Output[4]=DIFFPREAVGSIZE64;
     return 5;
 //INTERT09================================================================================
 }
@@ -4781,8 +4897,8 @@ int CUFeature::getINTERDepth2(float* Output,UInt uiAbsPartIdx)
     Output[4]=AVGofVARSIZE8;
     Output[5]=VARofAVGSIZE8;
     Output[6]=AVGofAVGSIZE8;
-    Output[7]=VARDiffrenceofPreFrame;
-    Output[8]=AVGDiffrenceofPreFrame;
+    Output[7]=DIFFPREVARSIZE64;
+    Output[8]=DIFFPREAVGSIZE64;
     return 9;
 //INTERT09================================================================================
 }
@@ -4803,8 +4919,8 @@ int CUFeature::getPMDepth0(float* Output,UInt uiAbsPartIdx)
     Output[5]=DC_AVG;
     Output[6]=AC_AVG;
     Output[7]=QP;
-    Output[8]=VARDiffrenceofPreFrame;
-    Output[9]=AVGDiffrenceofPreFrame;
+    Output[8]=DIFFPREVARSIZE64;
+    Output[9]=DIFFPREAVGSIZE64;
     return 10;
 //INTERT09================================================================================
 }
@@ -4823,9 +4939,12 @@ int CUFeature::getPMDepth1(float* Output,UInt uiAbsPartIdx)
     Output[0]=VARofVARSIZE16;
     Output[1]=VARSIZE32[INDEX];
     Output[2]=QP;
-    Output[3]=VARDiffrenceofPreFrame;
-    Output[4]=AVGDiffrenceofPreFrame;
-    return 5;
+    Output[3]=DIFFPREVARSIZE32[INDEX];
+    Output[4]=DIFFPREAVGSIZE32[INDEX];
+    Output[5]=VARofAVGSIZE16;
+    Output[6]=DC_Depth1[INDEX];
+    Output[7]=AC_Depth1[INDEX];
+    return 8;
 //INTERT09================================================================================
 }
 
@@ -4848,9 +4967,11 @@ int CUFeature::getPMDepth2(float* Output,UInt uiAbsPartIdx)
     Output[4]=AVGofVARSIZE8;
     Output[5]=VARofAVGSIZE8;
     Output[6]=AVGofAVGSIZE8;
-    Output[7]=VARDiffrenceofPreFrame;
-    Output[8]=AVGDiffrenceofPreFrame;
-    return 9;
+    Output[7]=DIFFPREVARSIZE16[INDEX][INDEXNEXT];
+    Output[8]=DIFFPREAVGSIZE16[INDEX][INDEXNEXT];
+    Output[9]=DC_Depth2[INDEX*4+INDEXNEXT];
+    Output[10]=AC_Depth2[INDEX*4+INDEXNEXT];
+    return 11;
 //INTERT09================================================================================
 }
 int CUFeature::getFeature(float* Output,int Depth,UInt uiAbsPartIdx,int Mode)
@@ -4908,13 +5029,42 @@ void CUFeature::ElevateINTERDiff(TComDataCU* pcCU)
 {
     if(INTERPRE_READY)
     {
-        VARDiffrenceofPreFrame=abs(PREVARSIZE64-VARSIZE64);
-        AVGDiffrenceofPreFrame=abs(PREAVGSIZE64-AVGSIZE64);
+        DIFFPREVARSIZE64=abs(PREVARSIZE64-VARSIZE64);
+        DIFFPREAVGSIZE64=abs(PREAVGSIZE64-AVGSIZE64);
+
+        for(int INDEX=0;INDEX<4;INDEX++)
+        {
+            DIFFPREAVGSIZE32[INDEX]=abs(PREAVGSIZE32[INDEX]-AVGSIZE32[INDEX]);
+            DIFFPREVARSIZE32[INDEX]=abs(PREVARSIZE32[INDEX]-VARSIZE32[INDEX]);
+        }
+        for(int INDEX=0;INDEX<4;INDEX++)
+        {
+            for(int INDEX2=0;INDEX2<4;INDEX2++)
+            {
+                DIFFPREAVGSIZE16[INDEX][INDEX2]=abs(PREAVGSIZE16[INDEX][INDEX2]-AVGSIZE16[INDEX][INDEX2]);
+                DIFFPREVARSIZE16[INDEX][INDEX2]=abs(PREVARSIZE16[INDEX][INDEX2]-VARSIZE16[INDEX][INDEX2]);
+            }
+        }
+        //VARDiffrenceofPreFrame=PREVARSIZE64;
+        //AVGDiffrenceofPreFrame=PREAVGSIZE64;
     }
     //else
-    //    QP = pcCU->getQP(0);
+        //QP = pcCU->getQP(0);
     PREAVGSIZE64=AVGSIZE64;
     PREVARSIZE64=VARSIZE64;
+    for(int INDEX=0;INDEX<4;INDEX++)
+    {
+        PREAVGSIZE32[INDEX]=AVGSIZE32[INDEX];
+        PREVARSIZE32[INDEX]=VARSIZE32[INDEX];
+    }
+    for(int INDEX=0;INDEX<4;INDEX++)
+    {
+        for(int INDEX2=0;INDEX2<4;INDEX2++)
+        {
+            PREAVGSIZE16[INDEX][INDEX2]=AVGSIZE16[INDEX][INDEX2];
+            PREVARSIZE16[INDEX][INDEX2]=VARSIZE16[INDEX][INDEX2];
+        }
+    }
     INTERPRE_READY=true;
 }
 void CUFeature::SYSTEM_INIT(int iQP)
