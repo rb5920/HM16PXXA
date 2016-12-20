@@ -44,6 +44,7 @@
 #include <cmath>
 #include <algorithm>
 using namespace std;
+int test=0,test1=0,test2=0;
 #if NEURALNETWORK_DUMP_ENABLE
 extern FILE* gfpCU0;
 extern FILE* gfpCU1;
@@ -467,7 +468,7 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
 
   const Bool bBoundary = !( uiRPelX < sps.getPicWidthInLumaSamples() && uiBPelY < sps.getPicHeightInLumaSamples() );
 
-  //[HM16P001A]:NeuralNetworkDecision========================================================================================
+  //[HM16PXXA]:NeuralNetworkDecision========================================================================================
 #if NEURALNETWORK_CU_INTRA_PREDICTION_ENABLE
   bool notRDCOSTINTRA=1;
   bool PARTITIONINTRA=1;
@@ -479,7 +480,7 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
   short mydepthINTER=0;
 #endif
 #if NEURALNETWORK_PREDICTIONMODE_ENABLE
-  bool enSKIPMODE = 0;
+  bool enSKIPMODE = 1;
 #endif
 #if NEURALNETWORK_TIMEEXECUTE_ENABLE
   timem.start_fanc(GCFgetFeature);
@@ -535,8 +536,10 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
     }
     else 
     {
+      //printf("uiDepth=%d\n",uiDepth);
       if(uiDepth == 0)
       {
+        //printf("LabelPMD0=%d\n",LabelPMD0[rpcBestCU->getCtuRsAddr()]);
         switch(LabelPMD0[rpcBestCU->getCtuRsAddr()])
         {
           case 0:
@@ -546,6 +549,18 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
             notRDCOSTINTER = 1;
             PARTITIONINTER = 0;
             enSKIPMODE = 0;
+            /*if(mydepthINTRA==0 && !((!m_pcEncCfg->getDisableIntraPUsInInterSlices()) && (
+              (rpcBestCU->getCbf( 0, COMPONENT_Y  ) != 0)                                            ||
+             ((rpcBestCU->getCbf( 0, COMPONENT_Cb ) != 0) && (numberValidComponents > COMPONENT_Cb)) ||
+             ((rpcBestCU->getCbf( 0, COMPONENT_Cr ) != 0) && (numberValidComponents > COMPONENT_Cr))  // avoid very complex intra if it is unlikely
+            )))
+            {
+              printf("test[depth0](%d)\n",test++);
+              notRDCOSTINTER = 0;
+              PARTITIONINTER = 1;
+              enSKIPMODE = 1;
+            }*/
+            //printf("INTRA0");
             break;
           case 1:
             mydepthINTER = LabelINTERD0[rpcBestCU->getCtuRsAddr()];
@@ -566,7 +581,8 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
       }
       else if(uiDepth == 1)
       {
-        switch(LabelPMD1[rpcBestCU->getCtuRsAddr()])
+        //printf("LabelPMD1=%d\n",LabelPMD1[rpcBestCU->getCtuRsAddr()*4+rpcBestCU->getZorderIdxInCtu()/64]);
+        switch(LabelPMD1[rpcBestCU->getCtuRsAddr()*4+rpcBestCU->getZorderIdxInCtu()/64])
         {
           case 0:
             mydepthINTRA = LabelINTRAD1[rpcBestCU->getCtuRsAddr()*4+rpcBestCU->getZorderIdxInCtu()/64];
@@ -575,6 +591,18 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
             notRDCOSTINTER = 1;
             PARTITIONINTER = 0;
             enSKIPMODE = 0;
+            /*if(mydepthINTRA==0 && !((!m_pcEncCfg->getDisableIntraPUsInInterSlices()) && (
+              (rpcBestCU->getCbf( 0, COMPONENT_Y  ) != 0)                                            ||
+             ((rpcBestCU->getCbf( 0, COMPONENT_Cb ) != 0) && (numberValidComponents > COMPONENT_Cb)) ||
+             ((rpcBestCU->getCbf( 0, COMPONENT_Cr ) != 0) && (numberValidComponents > COMPONENT_Cr))  // avoid very complex intra if it is unlikely
+            )))
+            {
+              printf("test[depth1](%d)\n",test1++);
+              notRDCOSTINTER = 0;
+              PARTITIONINTER = 1;
+              enSKIPMODE = 1;
+            }*/
+            //printf("INTRA1");
             break;
           case 1:
             mydepthINTER = LabelINTERD1[rpcBestCU->getCtuRsAddr()*4+rpcBestCU->getZorderIdxInCtu()/64];
@@ -595,7 +623,8 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
       }
       else if(uiDepth == 2)
       {
-        switch(LabelPMD2[rpcBestCU->getCtuRsAddr()])
+        //printf("LabelPMD2=%d\n",LabelPMD2[rpcBestCU->getCtuRsAddr()*16+rpcBestCU->getZorderIdxInCtu()/16]);
+        switch(LabelPMD2[rpcBestCU->getCtuRsAddr()*16+rpcBestCU->getZorderIdxInCtu()/16])
         {
           case 0:
             mydepthINTRA = LabelINTRAD2[rpcBestCU->getCtuRsAddr()*16+rpcBestCU->getZorderIdxInCtu()/16];
@@ -604,6 +633,18 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
             notRDCOSTINTER = 1;
             PARTITIONINTER = 0;
             enSKIPMODE = 0;
+            /*if(mydepthINTRA==0 && !((!m_pcEncCfg->getDisableIntraPUsInInterSlices()) && (
+              (rpcBestCU->getCbf( 0, COMPONENT_Y  ) != 0)                                            ||
+             ((rpcBestCU->getCbf( 0, COMPONENT_Cb ) != 0) && (numberValidComponents > COMPONENT_Cb)) ||
+             ((rpcBestCU->getCbf( 0, COMPONENT_Cr ) != 0) && (numberValidComponents > COMPONENT_Cr))  // avoid very complex intra if it is unlikely
+            )))
+            {
+              printf("test[depth2](%d)\n",test2++);
+              notRDCOSTINTER = 0;
+              PARTITIONINTER = 1;
+              enSKIPMODE = 1;
+            }*/
+            //printf("INTRA2");
             break;
           case 1:
             mydepthINTER = LabelINTERD2[rpcBestCU->getCtuRsAddr()*16+rpcBestCU->getZorderIdxInCtu()/16];
@@ -628,8 +669,8 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
 #endif
 #if NEURALNETWORK_TIMEEXECUTE_ENABLE
   timem.end_all(GCFgetFeature);
-  //[HM16P001A]:NeuralNetworkDecision========================================================================================
-  //[HM16P001A]:TIMEELEVATION================================================================================================
+  //[HM16PXXA]:NeuralNetworkDecision========================================================================================
+  //[HM16PXXA]:TIMEELEVATION================================================================================================
   if(!bBoundary)
 	{
 		switch(uiDepth)
@@ -696,6 +737,8 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
       }
 
       rpcTempCU->initEstData( uiDepth, iQP, bIsLosslessMode );
+      //printf("INITESTDATA\n");
+      //printf("Cbf_Y%d,Cbf_Cb%d,Cbf_Cr%d\n",rpcTempCU->getCbf( 0, COMPONENT_Y  ),rpcBestCU->getCbf( 0, COMPONENT_Cb ),rpcBestCU->getCbf( 0, COMPONENT_Cr ));
       // do inter modes, SKIP and 2Nx2N
       if( rpcBestCU->getSlice()->getSliceType() != I_SLICE )
       {
@@ -996,13 +1039,12 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
         // do normal intra modes
         // speedup for inter frames
         Double intraCost = 0.0;
-
         if(((rpcBestCU->getSlice()->getSliceType() == I_SLICE)                                        ||
             ((!m_pcEncCfg->getDisableIntraPUsInInterSlices()) && (
               (rpcBestCU->getCbf( 0, COMPONENT_Y  ) != 0)                                            ||
              ((rpcBestCU->getCbf( 0, COMPONENT_Cb ) != 0) && (numberValidComponents > COMPONENT_Cb)) ||
              ((rpcBestCU->getCbf( 0, COMPONENT_Cr ) != 0) && (numberValidComponents > COMPONENT_Cr))  // avoid very complex intra if it is unlikely
-            ))) 
+            )||(uiDepth <= 2 && !notRDCOSTINTRA ))) 
 #if NEURALNETWORK_CU_INTRA_PREDICTION_ENABLE
             && (uiDepth > 2 || !notRDCOSTINTRA )
 #endif

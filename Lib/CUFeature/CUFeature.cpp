@@ -4939,12 +4939,15 @@ int CUFeature::getPMDepth1(float* Output,UInt uiAbsPartIdx)
     Output[0]=VARofVARSIZE16;
     Output[1]=VARSIZE32[INDEX];
     Output[2]=QP;
-    Output[3]=DIFFPREVARSIZE32[INDEX];
+    /*Output[3]=DIFFPREVARSIZE32[INDEX];
     Output[4]=DIFFPREAVGSIZE32[INDEX];
     Output[5]=VARofAVGSIZE16;
     Output[6]=DC_Depth1[INDEX];
     Output[7]=AC_Depth1[INDEX];
-    return 8;
+    return 8;*/
+    Output[3]=DIFFPREVARSIZE64;
+    Output[4]=DIFFPREAVGSIZE64;
+    return 5;
 //INTERT09================================================================================
 }
 
@@ -4967,11 +4970,14 @@ int CUFeature::getPMDepth2(float* Output,UInt uiAbsPartIdx)
     Output[4]=AVGofVARSIZE8;
     Output[5]=VARofAVGSIZE8;
     Output[6]=AVGofAVGSIZE8;
-    Output[7]=DIFFPREVARSIZE16[INDEX][INDEXNEXT];
+    /*Output[7]=DIFFPREVARSIZE16[INDEX][INDEXNEXT];
     Output[8]=DIFFPREAVGSIZE16[INDEX][INDEXNEXT];
     Output[9]=DC_Depth2[INDEX*4+INDEXNEXT];
     Output[10]=AC_Depth2[INDEX*4+INDEXNEXT];
-    return 11;
+    return 11;*/
+    Output[7]=DIFFPREVARSIZE64;
+    Output[8]=DIFFPREAVGSIZE64;
+    return 9;
 //INTERT09================================================================================
 }
 int CUFeature::getFeature(float* Output,int Depth,UInt uiAbsPartIdx,int Mode)

@@ -42,10 +42,10 @@ cc_library(
 			"TEncSlice.h",
 			"TEncTop.h",
 			"WeightPredAnalysis.h"],
-	copts = ["-Itensorflow/HM16P001A/Lib"],
-	deps = ["//tensorflow/HM16P001A/Lib/TLibCommon:TLibCommon",
-					"//tensorflow/HM16P001A/Lib/CUFeature:CUFeature",
-			"//tensorflow/HM16P001A/Lib/NEURAL_CUP:NEURAL_CUP",],
+	copts = ["-Itensorflow/HM16PXXA/Lib"],
+	deps = ["//tensorflow/HM16PXXA/Lib/TLibCommon:TLibCommon",
+					"//tensorflow/HM16PXXA/Lib/CUFeature:CUFeature",
+			"//tensorflow/HM16PXXA/Lib/NEURAL_CUP:NEURAL_CUP",],
     visibility = ["//visibility:public"],
 )
 cc_inc_library(

@@ -63,19 +63,19 @@ cc_library(
 			"TComWeightPrediction.h",
 			"TComYuv.h",
 			"TypeDef.h"],
-	copts = ["-Itensorflow/HM16P001A/Lib/"],
-	deps = ["//tensorflow/HM16P001A/Lib/libmd5:libmd5_lb",
-			"//tensorflow/HM16P001A/Lib/TLibVideoIO:TLibVideoIO",
-			"//tensorflow/HM16P001A/Lib/TLibEncoder:TLibEncoder_lb",
-			"//tensorflow/HM16P001A/Lib/TLibDecoder:TLibDecoder_lb",
-			"//tensorflow/HM16P001A/Lib/TIME:TIMETEST"],
+	copts = ["-Itensorflow/HM16PXXA/Lib/"],
+	deps = ["//tensorflow/HM16PXXA/Lib/libmd5:libmd5_lb",
+			"//tensorflow/HM16PXXA/Lib/TLibVideoIO:TLibVideoIO",
+			"//tensorflow/HM16PXXA/Lib/TLibEncoder:TLibEncoder_lb",
+			"//tensorflow/HM16PXXA/Lib/TLibDecoder:TLibDecoder_lb",
+			"//tensorflow/HM16PXXA/Lib/TIME:TIMETEST"],
     visibility = ["//visibility:public"],
 )
 cc_inc_library(
     name = "TLibCommon_lb",
     hdrs = glob(["*.h"]),
-	deps = ["//tensorflow/HM16P001A/Lib/libmd5:libmd5_lb",
-			"//tensorflow/HM16P001A/Lib/TIME:TIMETEST"],
+	deps = ["//tensorflow/HM16PXXA/Lib/libmd5:libmd5_lb",
+			"//tensorflow/HM16PXXA/Lib/TIME:TIMETEST"],
 	visibility = ["//visibility:public"],
 )
 

@@ -2,7 +2,7 @@
 cc_binary(
     name = "TAppDecoder",
     srcs = ["decmain.cpp"],
-	copts = ["-Itensorflow/HM16P001A/Lib"],
+	copts = ["-Itensorflow/HM16PXXA/Lib"],
 	deps = [":TAppDecoder_lib"]
 )
 cc_library(
@@ -11,7 +11,7 @@ cc_library(
 			"TAppDecTop.cpp"],
     hdrs = ["TAppDecCfg.h",
 			"TAppDecTop.h"],
-	copts = ["-Itensorflow/HM16P001A/Lib"],
-	deps = ["//tensorflow/HM16P001A/Lib/TLibDecoder:TLibDecoder",
-			"//tensorflow/HM16P001A/Lib/TAppCommon:TAppCommon"],
+	copts = ["-Itensorflow/HM16PXXA/Lib"],
+	deps = ["//tensorflow/HM16PXXA/Lib/TLibDecoder:TLibDecoder",
+			"//tensorflow/HM16PXXA/Lib/TAppCommon:TAppCommon"],
 )

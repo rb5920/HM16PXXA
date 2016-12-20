@@ -597,6 +597,7 @@ Void TComDataCU::initEstData( const UInt uiDepth, const Int qp, const Bool bTran
     {
       m_puhCbf[comp][ui] = 0;
     }
+    //printf("!!!!!!!!!!!!!!!!!ZERO\n");
   }
 
   for(UInt i=0; i<NUM_REF_PIC_LIST_01; i++)

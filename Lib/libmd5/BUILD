@@ -3,7 +3,7 @@ cc_library(
 	srcs = ["libmd5.c"],
     hdrs = ["libmd5.h",
 			"MD5.h"],
-	copts = ["-Itensorflow/HM16P001A/Lib"],
+	copts = ["-Itensorflow/HM16PXXA/Lib"],
 	visibility = ["//visibility:public"],
 )
 cc_inc_library(

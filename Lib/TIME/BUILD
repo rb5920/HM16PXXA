@@ -12,7 +12,7 @@ cc_library(
     name = "TIMETEST",
     srcs = ["TimeTest.cpp"],
 	hdrs = ["TimeTest.h"],
-	copts = ["-Itensorflow/HM16P001A/Lib/TIME/"],
+	copts = ["-Itensorflow/HM16PXXA/Lib/TIME/"],
 	visibility = ["//visibility:public"],
 )
 

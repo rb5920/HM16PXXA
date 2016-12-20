@@ -25,8 +25,8 @@ cc_library(
 			"TDecSbac.h",
 			"TDecSlice.h",
 			"TDecTop.h"],
-	copts = ["-Itensorflow/HM16P001A/Lib"],
-	deps = ["//tensorflow/HM16P001A/Lib/TLibCommon:TLibCommon"],
+	copts = ["-Itensorflow/HM16PXXA/Lib"],
+	deps = ["//tensorflow/HM16PXXA/Lib/TLibCommon:TLibCommon"],
     visibility = ["//visibility:public"],
 )
 
@@ -57,8 +57,8 @@ cc_library(
 			"TDecSbac.h",
 			"TDecSlice.h",
 			"TDecTop.h"],
-	copts = ["-Itensorflow/HM16P001A/Lib"],
-	deps = ["//tensorflow/HM16P001A/Lib/TLibCommon:TLibCommon"],
+	copts = ["-Itensorflow/HM16PXXA/Lib"],
+	deps = ["//tensorflow/HM16PXXA/Lib/TLibCommon:TLibCommon"],
     visibility = ["//visibility:public"],
 )
 cc_inc_library(

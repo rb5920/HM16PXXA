@@ -2,8 +2,8 @@ cc_library(
     name = "TLibVideoIO",
     srcs = ["TVideoIOYuv.cpp"],
     hdrs = ["TVideoIOYuv.h"],	
-	copts = ["-Itensorflow/HM16P001A/Lib/"],
-	deps = ["//tensorflow/HM16P001A/Lib/TLibCommon:TLibCommon_lb"],
+	copts = ["-Itensorflow/HM16PXXA/Lib/"],
+	deps = ["//tensorflow/HM16PXXA/Lib/TLibCommon:TLibCommon_lb"],
     visibility = ["//visibility:public"],
 )
 cc_inc_library(

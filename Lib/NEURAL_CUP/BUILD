@@ -12,7 +12,7 @@ cc_library(
     name = "NEURAL_CUP",
     srcs = ["neural_cup.cpp"],
 	hdrs = ["neural_cup.h"],
-	copts = ["-Itensorflow/HM16P001A/Lib"],
+	copts = ["-Itensorflow/HM16PXXA/Lib"],
     deps = [
         "//tensorflow/cc:cc_ops",
         "//tensorflow/core:tensorflow",
