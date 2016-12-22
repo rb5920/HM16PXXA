@@ -35,15 +35,18 @@ int TF_neural::Create(int ModelVersion){
     break;
     case NN_PREDICTIONMODE_DEPTH0:
       //m_status = ReadBinaryProto(Env::Default(), "models/rec_INTERSKIPA03_T05.pb", &(m_graph_def));
-      m_status = ReadBinaryProto(Env::Default(), "models/rec_INTERSKIPA01D0.pb", &(m_graph_def));
+      //m_status = ReadBinaryProto(Env::Default(), "models/rec_INTERSKIPA01D0.pb", &(m_graph_def));
+      m_status = ReadBinaryProto(Env::Default(), "models/rec_INTERSKIPA01_T08.pb", &(m_graph_def));
     break;
     case NN_PREDICTIONMODE_DEPTH1:
       //m_status = ReadBinaryProto(Env::Default(), "models/rec_INTERSKIPA03_T06.pb", &(m_graph_def));
-      m_status = ReadBinaryProto(Env::Default(), "models/rec_INTERSKIP_A01D1.pb", &(m_graph_def));
+      //m_status = ReadBinaryProto(Env::Default(), "models/rec_INTERSKIP_A01D1.pb", &(m_graph_def));
+      m_status = ReadBinaryProto(Env::Default(), "models/rec_INTERSKIPA01_T09.pb", &(m_graph_def));
     break;
     case NN_PREDICTIONMODE_DEPTH2:
       //m_status = ReadBinaryProto(Env::Default(), "models/rec_INTERSKIPA03_T07.pb", &(m_graph_def));
-      m_status = ReadBinaryProto(Env::Default(), "models/rec_INTERSKIP_A01D2.pb", &(m_graph_def));
+      //m_status = ReadBinaryProto(Env::Default(), "models/rec_INTERSKIP_A01D2.pb", &(m_graph_def));
+      m_status = ReadBinaryProto(Env::Default(), "models/rec_INTERSKIPA01_T10.pb", &(m_graph_def));
     break;
   }
 
@@ -85,14 +88,17 @@ int TF_neural::Create(int ModelVersion){
     break;
     case NN_PREDICTIONMODE_DEPTH0:
       //checkpoint_filepath.scalar<std::string>()() = "models/rec_INTERSKIPA03_T05";
-      checkpoint_filepath.scalar<std::string>()() = "models/rec_INTERSKIPA01D0";
+      //checkpoint_filepath.scalar<std::string>()() = "models/rec_INTERSKIPA01D0";
+      checkpoint_filepath.scalar<std::string>()() = "models/rec_INTERSKIPA01_T08";
     break;
     case NN_PREDICTIONMODE_DEPTH1:
       //checkpoint_filepath.scalar<std::string>()() = "models/rec_INTERSKIPA03_T06";
-      checkpoint_filepath.scalar<std::string>()() = "models/rec_INTERSKIP_A01D1";
+      //checkpoint_filepath.scalar<std::string>()() = "models/rec_INTERSKIP_A01D1";
+      checkpoint_filepath.scalar<std::string>()() = "models/rec_INTERSKIPA01_T09";
     break;
     case NN_PREDICTIONMODE_DEPTH2:
-      checkpoint_filepath.scalar<std::string>()() = "models/rec_INTERSKIP_A01D2";
+      //checkpoint_filepath.scalar<std::string>()() = "models/rec_INTERSKIP_A01D2";
+      checkpoint_filepath.scalar<std::string>()() = "models/rec_INTERSKIPA01_T10";
       //checkpoint_filepath.scalar<std::string>()() = "models/rec_INTERSKIPA03_T07";
     break;
   }
